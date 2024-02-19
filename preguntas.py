@@ -11,6 +11,10 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
+import csv
+
+arc = csv.reader(open("data.csv", newline=""), delimiter="\t")
+
 
 
 def pregunta_01():
@@ -21,7 +25,10 @@ def pregunta_01():
     214
 
     """
-    return
+    ite = 0
+    for fila in arc: 
+        ite += int(fila[1])
+    return ite
 
 
 def pregunta_02():
@@ -39,7 +46,16 @@ def pregunta_02():
     ]
 
     """
-    return
+    res = {}
+
+    for fila in arc:
+        if fila[0] not in res: 
+            res[fila[0]] = 1
+        else: 
+            res[fila[0]] += 1
+    
+    res1 = sorted(res.items(), key=lambda x: x[0])
+    return res1
 
 
 def pregunta_03():
@@ -57,7 +73,16 @@ def pregunta_03():
     ]
 
     """
-    return
+    res = {}
+
+    for fila in arc:
+        if fila[0] not in res: 
+            res[fila[0]] = int(fila[1])
+        else: 
+            res[fila[0]] += int(fila[1])
+
+    res1 = sorted(res.items(), key=lambda x: x[0])
+    return res1
 
 
 def pregunta_04():
@@ -82,7 +107,17 @@ def pregunta_04():
     ]
 
     """
-    return
+    res = {}
+
+    for fila in arc:
+        mes = fila[2].split("-")[1]
+        if mes not in res: 
+            res[mes] = 1
+        else: 
+            res[mes] += 1
+
+    res1 = sorted(res.items(), key=lambda x: x[0])
+    return res1
 
 
 def pregunta_05():
@@ -100,7 +135,18 @@ def pregunta_05():
     ]
 
     """
-    return
+    res, res1 = {}, []
+
+    for fila in arc:
+        if fila[0] not in res: 
+            res[fila[0]] = [int(fila[1])]
+        else: 
+            res[fila[0]] += [int(fila[1])]
+
+    resOrd = sorted(res.items(), key=lambda x: x[0])
+    for ltr in resOrd: 
+        res1.append((ltr[0], max(ltr[1]), min(ltr[1])))
+    return res1
 
 
 def pregunta_06():
@@ -125,7 +171,20 @@ def pregunta_06():
     ]
 
     """
-    return
+    res, res1 = {}, []
+
+    for fila in arc:
+        for ele in fila[4].split(","):
+            val = ele.split(":")
+            if val[0] not in res: 
+                res[val[0]] = [int(val[1])]
+            else: 
+                res[val[0]] += [int(val[1])]
+
+    resOrd = sorted(res.items(), key=lambda x: x[0])
+    for ltr in resOrd: 
+        res1.append((ltr[0], min(ltr[1]), max(ltr[1])))
+    return res1
 
 
 def pregunta_07():
@@ -149,7 +208,16 @@ def pregunta_07():
     ]
 
     """
-    return
+    res = {}
+
+    for fila in arc:
+        if int(fila[1]) not in res: 
+            res[int(fila[1])] = [fila[0]]
+        else: 
+            res[int(fila[1])] += [fila[0]]
+
+    resOrd = sorted(res.items(), key=lambda x: x[0])
+    return resOrd
 
 
 def pregunta_08():
@@ -174,7 +242,19 @@ def pregunta_08():
     ]
 
     """
-    return
+    res = {}
+
+    for fila in arc:
+        if int(fila[1]) not in res:
+            res[int(fila[1])] = [fila[0]]
+        else:
+            if fila[0] not in res[int(fila[1])]: 
+                res[int(fila[1])] += [fila[0]]
+
+    resOrd = sorted(res.items(), key=lambda x: x[0])
+    for item in resOrd: 
+         item[1].sort()
+    return resOrd
 
 
 def pregunta_09():
@@ -197,7 +277,18 @@ def pregunta_09():
     }
 
     """
-    return
+    res = {}
+
+    for fila in arc:
+        for ele in fila[4].split(","):
+            val = ele.split(":")
+            if val[0] not in res: 
+                res[val[0]] = 1
+            else: 
+                res[val[0]] += 1
+
+    resOrd = dict(sorted(res.items()))
+    return resOrd
 
 
 def pregunta_10():
@@ -218,8 +309,14 @@ def pregunta_10():
 
 
     """
-    return
+    res = []
 
+    for fila in arc:
+        col4 = fila[3].split(",")
+        col5 = fila[4].split(",")
+        res.append((fila[0], len(col4), len(col5)))
+
+    return res
 
 def pregunta_11():
     """
@@ -239,7 +336,17 @@ def pregunta_11():
 
 
     """
-    return
+    res = {}
+
+    for fila in arc:
+        col4 = fila[3].split(",")
+        for val in col4:
+            if val not in res: 
+                res[val] = int(fila[1])
+            else: 
+                res[val] += int(fila[1])
+
+    return dict(sorted(res.items()))
 
 
 def pregunta_12():
@@ -257,4 +364,15 @@ def pregunta_12():
     }
 
     """
-    return
+    res = {}
+    for fila in arc:
+        col5, valor = fila[4].split(","), 0
+        for ele in col5:
+            valor += int(ele.split(":")[1])
+        
+        if fila[0] not in res:
+            res[fila[0]] = valor
+        else:
+            res[fila[0]] += valor
+
+    return dict(sorted(res.items()))
